@@ -12,25 +12,34 @@ function char69(n: number): string {
   return tokens.join('');
 }
 
-export function encode(bytes: Uint8Array): string {
-  const len = bytes.length;
-  const extraBytes = len % 7;
-  const len2 = len - extraBytes;
-  const codes: string[] = [];
-  for (let i = 0; i < len2; i++) {
+function encodeArrayWithLength(bytes: Uint8Array, startIndex: number, length: number, codes: string[]): void {
+  const endIndex = startIndex + length;
+  for (let i = startIndex; i < endIndex; i++) {
     const shift = (i % 7) + 1;
-    let aft = bytes[i] >> shift;
+    let shifted = bytes[i] >> shift;
     if (shift > 1) {
       const pre = (bytes[i - 1] & ((2 << (shift - 2)) - 1)) << (8 - shift);
-      aft = pre | aft;
+      shifted = pre | shifted;
     }
-    console.log(aft);
-    codes.push(char69(aft));
+    codes.push(char69(shifted));
     if (shift == 7) {
-      aft = bytes[i] & 127;
-      console.log(aft);
-      codes.push(char69(aft));
+      shifted = bytes[i] & 127;
+      codes.push(char69(shifted));
     }
+  }
+}
+
+export function encode(bytes: Uint8Array): string {
+  const codes: string[] = [];
+  const len = bytes.length;
+  const extraBytes = len % 7;
+  encodeArrayWithLength(bytes, 0, len - extraBytes, codes);
+  if (extraBytes) {
+    const extra = new Uint8Array(7);
+    extra.fill(0, 0);
+    extra.set(bytes.slice(len - extraBytes), 0);
+    encodeArrayWithLength(extra, 0, extra.length, codes);
+    codes[codes.length - 1] = `${7 - extraBytes}=`;
   }
   return codes.join('');
 }
@@ -38,7 +47,7 @@ export function encode(bytes: Uint8Array): string {
 export function encodeString(value: string): string {
   const textEncoder = new TextEncoder();
   const bytes = textEncoder.encode(value);
-  console.log('bytes', bytes);
+  console.log('string as bytes', bytes);
   return encode(bytes);
 }
 
