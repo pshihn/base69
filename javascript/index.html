@@ -1,0 +1,20 @@
+<html>
+
+<head></head>
+
+<body>
+  <button>Do the deed</button>
+
+  <script type="module">
+    import { encodeString, encodeNumbers } from './bin/base64.js';
+
+    document.querySelector('button').addEventListener('click', () => setTimeout(() => {
+      const x = encodeString('abcdefg');
+      // const x = encodeNumbers([213, 225, 102, 174, 120, 207, 43, 213, 225, 102, 174, 120, 207, 43]);
+
+      console.log('x', x);
+    }));
+  </script>
+</body>
+
+</html>
