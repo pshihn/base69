@@ -36,9 +36,11 @@ A basic Javascript implementation is added to this project. Implementations in o
 
 ## Javascript API
 
-```javascript
-export declare function encode(bytes: Uint8Array): string;
-export declare function decode(value: string): Uint8Array;
+Two methods:
+
+```typescript
+function encode(bytes: Uint8Array): string;
+function decode(value: string): Uint8Array;
 ```
 
 ## FAQ
