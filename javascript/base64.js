@@ -1,18 +1,14 @@
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/-*<>|';
 
-function byteToChars(n: number): string {
-  if (n < 69) {
-    return `${chars[n]}${chars[0]}`;
-  } else {
-    return `${chars[n % 69]}${chars[1]}`;
-  }
+function byteToChars(n) {
+  return `${chars[n % 69]}${chars[Math.floor(n / 69)]}`;
 }
 
-function charsToByte(s: string): number {
+function charsToByte(s) {
   return (69 * chars.indexOf(s.charAt(1))) + chars.indexOf(s.charAt(0));
 }
 
-function encodeArrayWithLength(bytes: Uint8Array, startIndex: number, length: number, codes: string[]): void {
+function encodeArrayWithLength(bytes, startIndex, length, codes) {
   const endIndex = startIndex + length;
   for (let i = startIndex; i < endIndex; i++) {
     const shift = (i % 7) + 1;
@@ -29,7 +25,7 @@ function encodeArrayWithLength(bytes: Uint8Array, startIndex: number, length: nu
   }
 }
 
-function decodeChunk(s: string): Uint8Array {
+function decodeChunk(s) {
   const paddedBytes = s.endsWith('=');
   const decoded = new Uint8Array(8);
   for (let i = 0; i < 8; i++) {
@@ -44,8 +40,8 @@ function decodeChunk(s: string): Uint8Array {
   return result;
 }
 
-export function encode(bytes: Uint8Array): string {
-  const codes: string[] = [];
+export function encode(bytes) {
+  const codes = [];
   const len = bytes.length;
   const extraBytes = len % 7;
   encodeArrayWithLength(bytes, 0, len - extraBytes, codes);
@@ -59,7 +55,7 @@ export function encode(bytes: Uint8Array): string {
   return codes.join('');
 }
 
-export function decode(value: string): Uint8Array {
+export function decode(value) {
   let extraBytes = 0;
   if (value.charAt(value.length - 1) === '=') {
     extraBytes = +value.charAt(value.length - 2);
@@ -70,7 +66,8 @@ export function decode(value: string): Uint8Array {
     const chunkString = value.substring(i * 16, (i + 1) * 16);
     if (extraBytes && (i == chunkCount - 1)) {
       bytes.set(decodeChunk(chunkString).subarray(0, 7 - extraBytes), i * 7);
-    } else {
+    }
+    else {
       bytes.set(decodeChunk(chunkString), i * 7);
     }
   }

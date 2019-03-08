@@ -2,7 +2,9 @@
   "name": "base69",
   "version": "0.0.1",
   "description": "Base69 encoding. Nice!",
-  "main": "index.js",
+  "main": "base64.js",
+  "module": "base64.js",
+  "types": "base64.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,8 +14,9 @@
   },
   "keywords": [
     "base69",
-    "base64",
-    "encoding"
+    "base64 like",
+    "encoding",
+    "binary encoding"
   ],
   "author": "Preet Shihn <preetshihn@gmail.com>",
   "license": "MIT",
