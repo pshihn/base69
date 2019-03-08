@@ -1,5 +1,5 @@
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/-*<>|';
-function char69(n) {
+function byteToChars(n) {
     if (n < 69) {
         return `=${chars[n]}`;
     }
@@ -10,6 +10,14 @@ function char69(n) {
     }
     return tokens.join('');
 }
+function charsToByte(s) {
+    if (s.charAt(0) === '=') {
+        return chars.indexOf(s.charAt(1));
+    }
+    else {
+        return (69 * chars.indexOf(s.charAt(1))) + chars.indexOf(s.charAt(0));
+    }
+}
 function encodeArrayWithLength(bytes, startIndex, length, codes) {
     const endIndex = startIndex + length;
     for (let i = startIndex; i < endIndex; i++) {
@@ -19,12 +27,26 @@ function encodeArrayWithLength(bytes, startIndex, length, codes) {
             const pre = (bytes[i - 1] & ((2 << (shift - 2)) - 1)) << (8 - shift);
             shifted = pre | shifted;
         }
-        codes.push(char69(shifted));
+        codes.push(byteToChars(shifted));
         if (shift == 7) {
             shifted = bytes[i] & 127;
-            codes.push(char69(shifted));
+            codes.push(byteToChars(shifted));
         }
     }
+}
+function decodeChunk(s) {
+    const paddedBytes = s.endsWith('=') ? (+s.charAt(s.length - 2)) : 0;
+    const decoded = new Uint8Array(8);
+    for (let i = 0; i < 8; i++) {
+        decoded[i] = (i === 7 && paddedBytes) ? 0 : charsToByte(s.substring(i * 2, i * 2 + 2));
+    }
+    const result = new Uint8Array(7);
+    for (let i = 0; i < 7; i++) {
+        let t1 = decoded[i] << (i + 1);
+        let t2 = decoded[i + 1] >> (7 - i - 1);
+        result[i] = t1 | t2;
+    }
+    return result;
 }
 export function encode(bytes) {
     const codes = [];
@@ -40,18 +62,21 @@ export function encode(bytes) {
     }
     return codes.join('');
 }
-export function encodeString(value) {
-    const textEncoder = new TextEncoder();
-    const bytes = textEncoder.encode(value);
-    console.log('string as bytes', bytes);
-    return encode(bytes);
-}
-export function encodeNumbers(value) {
-    const buffer = new ArrayBuffer(value.length);
-    const array = new Uint8Array(buffer);
-    value.forEach((d, i) => {
-        array[i] = d;
-    });
-    console.log('array', array);
-    return encode(array);
+export function decode(value) {
+    let extraBytes = 0;
+    if (value.charAt(value.length - 1) === '=') {
+        extraBytes = +value.charAt(value.length - 2);
+    }
+    const chunkCount = Math.ceil(value.length / 16);
+    const bytes = new Uint8Array(chunkCount * 7 - extraBytes);
+    for (let i = 0; i < chunkCount; i++) {
+        const chunkString = value.substring(i * 16, (i + 1) * 16);
+        if (extraBytes && (i == chunkCount - 1)) {
+            bytes.set(decodeChunk(chunkString).subarray(0, 7 - extraBytes), i * 7);
+        }
+        else {
+            bytes.set(decodeChunk(chunkString), i * 7);
+        }
+    }
+    return bytes;
 }

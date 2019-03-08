@@ -6,15 +6,78 @@
   <button>Do the deed</button>
 
   <script type="module">
-    import { encodeString, encodeNumbers } from './bin/base64.js';
+    import { encode, decode } from './bin/base64.js';
+
+    function encodeString(value) {
+      const textEncoder = new TextEncoder();
+      const bytes = textEncoder.encode(value);
+      return encode(bytes);
+    }
+
+    function decodeSting(value) {
+      const bytes = decode(value);
+      const textDecoder = new TextDecoder();
+      return textDecoder.decode(bytes);
+    }
+
+    function encodeNumbers(value) {
+      const buffer = new ArrayBuffer(value.length);
+      const array = new Uint8Array(buffer);
+      value.forEach((d, i) => {
+        array[i] = d;
+      });
+      return encode(array);
+    }
 
     document.querySelector('button').addEventListener('click', () => setTimeout(() => {
-      // const x = encodeString('abc');
-      const x = encodeNumbers([213, 225, 102, 174, 120, 207, 43]);
-      // const x = encodeNumbers([213, 225, 102, 174, 120, 207, 43, 213, 225, 102, 174, 120, 207, 43]);
-      // const x = encodeNumbers([213, 225, 102, 174, 120, 207, 43, 213, 225, 102, 174]);
-
-      console.log(x.length, x);
+      {
+        const d = 'ab';
+        console.log('encoding', d);
+        const code = encodeString(d);
+        console.log('coded', code);
+        console.log('decoded', decodeSting(code));
+        console.log('------------');
+      }
+      {
+        const d = 'abcdefg';
+        console.log('encoding', d);
+        const code = encodeString(d);
+        console.log('coded', code);
+        console.log('decoded', decodeSting(code));
+        console.log('------------');
+      }
+      {
+        const d = 'abcdefgHIJ';
+        console.log('encoding', d);
+        const code = encodeString(d);
+        console.log('coded', code);
+        console.log('decoded', decodeSting(code));
+        console.log('------------');
+      }
+      {
+        const d = [213, 225, 102, 174, 120, 207, 43];
+        console.log('encoding', d);
+        const code = encodeNumbers(d);
+        console.log('coded', code);
+        console.log('decoded', decode(code));
+        console.log('------------');
+      }
+      {
+        const d = [213, 225, 102, 174, 120, 207, 43, 213, 225, 102, 174, 120, 207, 43];
+        console.log('encoding', d);
+        const code = encodeNumbers(d);
+        console.log('coded', code);
+        console.log('decoded', decode(code));
+        console.log('------------');
+      }
+      {
+        const d = [213, 225, 102, 174, 120, 207, 43, 213, 225, 102, 174];
+        console.log('encoding', d);
+        const code = encodeNumbers(d);
+        console.log('coded', code);
+        console.log('decoded', decode(code));
+        console.log('------------');
+      }
     }));
   </script>
 </body>

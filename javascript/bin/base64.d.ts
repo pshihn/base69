@@ -1,3 +1,2 @@
 export declare function encode(bytes: Uint8Array): string;
-export declare function encodeString(value: string): string;
-export declare function encodeNumbers(value: number[]): string;
+export declare function decode(value: string): Uint8Array;
