@@ -31,7 +31,7 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/-*<>|
 
 A basic Javascript implementation is added to this project. Implementations in other languages are welcome from contributors. 
 
-[View demo] that turns text to Base69 strings and vice versa.
+[View demo](http://pshihn.github.io/base69/) that turns text to Base69 strings and vice versa.
 
 ## FAQ
 
