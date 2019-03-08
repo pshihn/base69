@@ -27,13 +27,13 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/-*<>|
 * If the trailing data is less than 7 bytes, then extra bytes of value `0` are added at the end to make a 7-byte chunk.
 * The last two characters of the encoded padded data are replaced by `p=` whre p is the number of bytes padded at the end. e.g. if the data at the end is 4 bytes long, 3 bytes are added. So the last 2 characters in the encoded string will be `3=`
 
-### Implementations
+## Implementations
 
 A basic Javascript implementation is added to this project. Implementations in other languages are welcome from contributors. 
 
 [View demo] that turns text to Base69 strings and vice versa.
 
-### FAQ
+## FAQ
 
 **Why implement Base69?**
 
@@ -43,5 +43,5 @@ Because it's noice!
 
 Not really
 
-### License
+## License
 [MIT License](https://github.com/pshihn/base69/blob/master/LICENSE) (c) [Preet Shihn](https://twitter.com/preetster)
