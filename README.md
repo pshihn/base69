@@ -39,6 +39,9 @@ A basic Javascript implementation is added to this project. Implementations in o
 
 Because it's noice!
 
-**Is it better than Base64**
+**Is it better than Base64?**
 
 Not really
+
+### License
+[MIT License](https://github.com/pshihn/base69/blob/master/LICENSE) (c) [Preet Shihn](https://twitter.com/preetster)
