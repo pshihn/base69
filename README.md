@@ -22,8 +22,8 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/-*<>|
 ## Algorithm
 
 * Divide the input byte stream to 7 byte chunks.
-* Divide the 56 bits in a chunk to 8 groupd 7 bits.
-* Take the numeric value (n) of each 7 bit group and turn them into a 2 character string: Divde n by 69 and get the quotient and remainder. The string's first character is the character corresponding to the remainder and the second character corresponds to the quotient from the 69-character dataset.
+* Divide the 56 bits in a chunk to 8 groups of 7 bits.
+* Take the numeric value (n) of each 7 bit group and turn them into a 2 character string: Divide n by 69 and get the quotient and remainder. The string's first character is the character corresponding to the remainder and the second character corresponds to the quotient from the 69-character dataset.
 * If the trailing data is less than 7 bytes, then extra bytes of value `0` are added at the end to make a 7-byte chunk.
 * The last two characters of the encoded padded data are replaced by `p=` whre p is the number of bytes padded at the end. e.g. if the data at the end is 4 bytes long, 3 bytes are added. So the last 2 characters in the encoded string will be `3=`
 
