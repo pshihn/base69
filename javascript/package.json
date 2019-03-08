@@ -1,6 +1,6 @@
 {
   "name": "base69",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Base69 encoding. Nice!",
   "main": "base64.js",
   "module": "base64.js",
