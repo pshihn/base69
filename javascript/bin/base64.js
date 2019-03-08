@@ -1,22 +1,14 @@
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/-*<>|';
 function byteToChars(n) {
     if (n < 69) {
-        return `=${chars[n]}`;
-    }
-    const tokens = [];
-    while (n > 0) {
-        tokens.push(chars[n % 69]);
-        n = Math.floor(n / 69);
-    }
-    return tokens.join('');
-}
-function charsToByte(s) {
-    if (s.charAt(0) === '=') {
-        return chars.indexOf(s.charAt(1));
+        return `${chars[n]}${chars[0]}`;
     }
     else {
-        return (69 * chars.indexOf(s.charAt(1))) + chars.indexOf(s.charAt(0));
+        return `${chars[n % 69]}${chars[1]}`;
     }
+}
+function charsToByte(s) {
+    return (69 * chars.indexOf(s.charAt(1))) + chars.indexOf(s.charAt(0));
 }
 function encodeArrayWithLength(bytes, startIndex, length, codes) {
     const endIndex = startIndex + length;
@@ -35,7 +27,7 @@ function encodeArrayWithLength(bytes, startIndex, length, codes) {
     }
 }
 function decodeChunk(s) {
-    const paddedBytes = s.endsWith('=') ? (+s.charAt(s.length - 2)) : 0;
+    const paddedBytes = s.endsWith('=');
     const decoded = new Uint8Array(8);
     for (let i = 0; i < 8; i++) {
         decoded[i] = (i === 7 && paddedBytes) ? 0 : charsToByte(s.substring(i * 2, i * 2 + 2));
