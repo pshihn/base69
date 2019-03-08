@@ -16,7 +16,7 @@ Base69 works with block of 7 bytes instead which can be broken into eight 7-bit 
 
 The 69 characters in the set are:
 ```
-"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/-*<>|"
+ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/-*<>|
 ```
 
 ## Algorithm
