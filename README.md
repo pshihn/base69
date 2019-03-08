@@ -3,7 +3,7 @@
 Base69 is a binary-to-text encoding scheme inspired by [Base64](https://en.wikipedia.org/wiki/Base64) encoding.
 
 Why Base69 when Base64 is adequate?
-Because it's NICE!
+Because it's *NICE*!
 
 ## Technique
 
@@ -37,7 +37,7 @@ A basic Javascript implementation is added to this project. Implementations in o
 
 **Why implement Base69?**
 
-Because it's noice!
+Because it's *noice!*
 
 **Is it better than Base64?**
 
